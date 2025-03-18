@@ -1,3 +1,3 @@
-# rails-8-template
+# photogram-industrial
 
-For your AppDev-2 Projects!
+Target: https://photogram-industrial.matchthetarget.com/

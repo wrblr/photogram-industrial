@@ -46,8 +46,6 @@ task sample_data: :environment do
       private: secret,
       avatar_image: File.open("#{Rails.root}/public/avatars/#{rand(1..10)}.jpeg")
     )
-
-    p user.errors.full_messages
   end
 
   users = User.all
@@ -63,8 +61,6 @@ task sample_data: :environment do
           recipient: second_user,
           status: status
         )
-
-        p first_user_follow_request.errors.full_messages
       end
 
       if rand < 0.75
@@ -76,8 +72,6 @@ task sample_data: :environment do
           recipient: first_user,
           status: status
         )
-
-        p second_user_follow_request.errors.full_messages
       end
     end
   end
@@ -89,8 +83,6 @@ task sample_data: :environment do
         image: File.open("#{Rails.root}/public/photos/#{rand(1..10)}.jpeg")
       )
 
-      p photo.errors.full_messages
-
       user.followers.each do |follower|
         if rand < 0.5
           photo.fans << follower
@@ -101,8 +93,6 @@ task sample_data: :environment do
             body: Faker::Quote.jack_handey,
             author: follower
           )
-
-          p comment.errors.full_messages
         end
       end
     end

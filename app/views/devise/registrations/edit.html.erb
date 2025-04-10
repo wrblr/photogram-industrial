@@ -31,6 +31,21 @@
     <%= f.password_field :current_password, autocomplete: "current-password" %>
   </div>
 
+  <div class="field">
+    <%= f.label :username %><br />
+    <%= f.text_field :username, class: "username", placeholder: "Enter username" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name, class: "name", placeholder: "Enter name" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :avatar_image %><br />
+    <%= f.file_field :avatar_image, placeholder: "avatar_placeholder.png" %>
+  </div>
+
   <div class="actions">
     <%= f.submit "Update" %>
   </div>

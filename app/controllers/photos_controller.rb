@@ -67,4 +67,5 @@ class PhotosController < ApplicationController
     def photo_params
       params.expect(photo: [ :image, :comments_count, :likes_count, :caption, :owner_id ])
     end
+
 end

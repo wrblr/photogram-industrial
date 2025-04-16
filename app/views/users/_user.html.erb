@@ -1,156 +1,231 @@
-<div class="d-flex">
-  <div class="flex-shrink-0 w-25">
-    <%= image_tag user.avatar_image_url, class: "me-3 rounded-circle img-cover img-medium" %>
-  </div>
-
-  <div class="media-body">
-    <div class="d-flex justify-content-between align-items-center">
-      <h1 class="mt-0 mb-3 display-4">
-        <%= user.username %>
-      </h1>
-
-      <div>
-        <span class="badge text-bg-secondary">
-          <%= user.private? ? "Private" : "Public" %>
-        </span>
-      </div>
-    </div>
-
-    <div class="mb-4 d-flex justify-content-between">
-      <div>
-        <%=
-          link_to "#",
-            class: "link-underline link-underline-opacity-0 link-underline-opacity-100-hover",
-            data: { 
-              "bs-toggle": "modal", 
-              "bs-target": "##{dom_id(user)}_followers"
-            } do %>
-
-          <span class="font-weight-bold">
-            <%= user.followers.size %>
-          </span>
-
-          followers
-
-        <% end %>
+<div class="row mb-4">
+  <div class="col-md-6 offset-md-3">
+    <div class="d-flex">
+      <div class="flex-shrink-0">
+        <img class="mr-3 rounded-circle" width="128" src="https://robohash.org/dave">
       </div>
 
-      <div>
-        <%=
-          link_to "#",
-            class: "link-underline link-underline-opacity-0 link-underline-opacity-100-hover",
-            data: { 
-              "bs-toggle": "modal", 
-              "bs-target": "##{dom_id(user)}_following"
-            } do %>
+      <div class="media-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <h1 class="mt-0 mb-3 display-4">
+            dave
+          </h1>
 
-          <span class="font-weight-bold">
-            <%= user.leaders.size %>
-          </span>
+          <div>
+            <span class="badge text-bg-secondary">
+              Public
+            </span>
+          </div>
+        </div>
 
-          following
+        <div class="mb-4 d-flex justify-content-between">
+          <div>
+            <a class="link-underline link-underline-opacity-0 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#user_7896_followers" href="#">
 
-        <% end %>
+              <span class="font-weight-bold">
+                14
+              </span>
+
+              followers
+
+            </a>      </div>
+
+          <div>
+            <a class="link-underline link-underline-opacity-0 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#user_7896_following" href="#">
+
+              <span class="font-weight-bold">
+                5
+              </span>
+
+              following
+
+            </a>      </div>
+
+          <div>
+            <a class="link-underline link-underline-opacity-0 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#user_7896_pending" href="#">
+
+              <span class="font-weight-bold">
+                0
+              </span>
+
+              pending
+
+            </a>      </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col">
+
+            <p class="lead text-center">
+              dave has sent you a follow request.
+            </p>
+
+            <form action="/follow_requests/102742" accept-charset="UTF-8" method="post"><input type="hidden" name="_method" value="patch" autocomplete="off"><input type="hidden" name="authenticity_token" value="WGDGnsKdXCJ85RWHCdFBCuih5_JTesOrebzb7VXvj0p1B-vvqpnPIPQA_uu9x6gGjh9NKB8GMml5TBfUNPVwLw" autocomplete="off">
+              <input autocomplete="off" type="hidden" value="accepted" name="follow_request[status]" id="follow_request_status">
+
+              <input type="submit" name="commit" value="Accept dave's request" class="btn btn-outline-success btn-block mb-3" data-disable-with="Accept dave's request">
+            </form>
+
+            <form action="/follow_requests/102742" accept-charset="UTF-8" method="post"><input type="hidden" name="_method" value="patch" autocomplete="off"><input type="hidden" name="authenticity_token" value="WGDGnsKdXCJ85RWHCdFBCuih5_JTesOrebzb7VXvj0p1B-vvqpnPIPQA_uu9x6gGjh9NKB8GMml5TBfUNPVwLw" autocomplete="off">
+              <input autocomplete="off" type="hidden" value="rejected" name="follow_request[status]" id="follow_request_status">
+
+              <input type="submit" name="commit" value="Decline dave's request" class="btn btn-outline-danger btn-block mb-3" data-disable-with="Decline dave's request">
+            </form>
       </div>
+        </div>
 
-      <div>
-        <%=
-          link_to "#",
-            class: "link-underline link-underline-opacity-0 link-underline-opacity-100-hover",
-            data: { 
-              "bs-toggle": "modal", 
-              "bs-target": "##{dom_id(user)}_pending"
-            } do %>
-
-          <span class="font-weight-bold">
-            <%= @user.pending.size %>
-          </span>
-
-          pending
-
-        <% end %>
-      </div>
-    </div>
-
-    <div class="row mb-3">
-      <div class="col">
-        <% follow_request = current_user.pending_received_follow_requests.find_by(sender: @user) %>
-
-        <% if follow_request %>
-          <p class="lead text-center">
-            <%= @user.username %> has sent you a follow request.
-          </p>
-
-          <% follow_request.status = "accepted" %>
-
-          <%= form_with(model: follow_request) do |form| %>
-            <%= form.hidden_field :status %>
-
-            <%= form.submit "Accept #{@user.username}'s request", class: "btn btn-outline-success btn-block mb-3" %>
-          <% end %>
-
-          <% follow_request.status = "rejected" %>
-
-          <%= form_with(model: follow_request) do |form| %>
-            <%= form.hidden_field :status %>
-
-            <%= form.submit "Decline #{@user.username}'s request", class: "btn btn-outline-danger btn-block mb-3" %>
-          <% end %>
-        <% end %>
-      </div>
-    </div>
-
-    <div class="row mb-4">
-      <div class="col">
-        <% follow_request = current_user.sent_follow_requests.find_by(recipient: @user) %>
-        <% if follow_request %>
-          <%= link_to follow_request, method: :delete, class: "btn btn-outline-secondary btn-block" do %>
-            <% if follow_request.pending? %>
-              Un-request
-            <% else %>
+        <div class="row mb-4">
+          <div class="col">
+            <a class="btn btn-outline-secondary btn-block" rel="nofollow" data-method="delete" href="/follow_requests/102741">
               Un-follow
-            <% end %>
-          <% end %>
-        <% else %>
-          <%= render "follow_requests/form", follow_request: @user.received_follow_requests.build %>
-        <% end %>
+            </a>      </div>
+        </div>
+
+        <h3 class="h5">
+          Dave Smith
+        </h3>
+
+        <p>
+          Clementia dolor curvus. Charisma tenuis tenetur. Celo averto magni. Vindico suasoria bene. Videlicet repellat abundans.
+        </p>
+
+        <p>
+          <a class="link-underline link-underline-opacity-0 link-underline-opacity-100-hover" href="http://schinner.test/hiedi.marquardt">schinner.test/hiedi.marquardt</a>
+        </p>
       </div>
     </div>
 
-    <h3 class="h5">
-      <%= user.name %>
-    </h3>
+    <div class="modal fade" id="user_7896_followers" data-keyboard="false" tabindex="-1" aria-labelledby="backdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="backdropLabel">
+              dave's followers
 
-    <p>
-      <%= user.bio %>
-    </p>
+              <span class="badge badge-pill text-bg-secondary">
+                14
+              </span>
+            </h5>
 
-    <p>
-      <%= only_host_and_path(user.website) %>
-    </p>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <a data-turbo="false" href="/chet">chet</a>
+            </li>
+            <li class="list-group-item">
+              <a data-turbo="false" href="/leda">leda</a>
+            </li>
+            <li class="list-group-item">
+              <a data-turbo="false" href="/pricilla">pricilla</a>
+            </li>
+            <li class="list-group-item">
+              <a data-turbo="false" href="/shameka">shameka</a>
+            </li>
+            <li class="list-group-item">
+              <a data-turbo="false" href="/eugenie">eugenie</a>
+            </li>
+            <li class="list-group-item">
+              <a data-turbo="false" href="/marquis">marquis</a>
+            </li>
+            <li class="list-group-item">
+              <a data-turbo="false" href="/caleb">caleb</a>
+            </li>
+            <li class="list-group-item">
+              <a data-turbo="false" href="/alice">alice</a>
+            </li>
+            <li class="list-group-item">
+              <a data-turbo="false" href="/bob">bob</a>
+            </li>
+            <li class="list-group-item">
+              <a data-turbo="false" href="/carol">carol</a>
+            </li>
+            <li class="list-group-item">
+              <a data-turbo="false" href="/albert">albert</a>
+            </li>
+            <li class="list-group-item">
+              <a data-turbo="false" href="/thomasina">thomasina</a>
+            </li>
+            <li class="list-group-item">
+              <a data-turbo="false" href="/daron">daron</a>
+            </li>
+            <li class="list-group-item">
+              <a data-turbo="false" href="/eve">eve</a>
+            </li>
+          </ul>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary btn-block" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="user_7896_following" data-keyboard="false" tabindex="-1" aria-labelledby="backdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="backdropLabel">
+              dave's following
+
+              <span class="badge badge-pill text-bg-secondary">
+                5
+              </span>
+            </h5>
+
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <a data-turbo="false" href="/marquis">marquis</a>
+            </li>
+            <li class="list-group-item">
+              <a data-turbo="false" href="/daron">daron</a>
+            </li>
+            <li class="list-group-item">
+              <a data-turbo="false" href="/caleb">caleb</a>
+            </li>
+            <li class="list-group-item">
+              <a data-turbo="false" href="/bob">bob</a>
+            </li>
+            <li class="list-group-item">
+              <a data-turbo="false" href="/eve">eve</a>
+            </li>
+          </ul>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary btn-block" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="user_7896_pending" data-keyboard="false" tabindex="-1" aria-labelledby="backdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="backdropLabel">
+              dave's pending
+
+              <span class="badge badge-pill text-bg-secondary">
+                0
+              </span>
+            </h5>
+
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <ul class="list-group list-group-flush">
+          </ul>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary btn-block" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
-
-<%=
-  render "users/connected_users_modal",
-    user: user,
-    connected_users: user.followers,
-    description: "followers",
-    target: "#{dom_id(user)}_followers"
-%>
-
-<%=
-  render "users/connected_users_modal",
-    user: user,
-    connected_users: user.leaders,
-    description: "following",
-    target: "#{dom_id(user)}_following"
-%>
-
-<%=
-  render "users/connected_users_modal",
-    user: user,
-    connected_users: user.pending,
-    description: "pending",
-    target: "#{dom_id(user)}_pending"
-%>
